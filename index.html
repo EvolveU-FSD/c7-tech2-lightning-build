@@ -1,0 +1,40 @@
+<html>
+ <head>
+    <title>Door counter</title>
+ </head>
+ <body style="font-family: sans-serif;">
+    <h1>Door counter</h1>
+    <div>Total count</div>
+    <div id="countDiv" style="font-weight: 700; font-size: 2em;"> -- </div>    
+    <button style="background: red;" onclick="increment()">Increment</button>
+    <button style="background: green;" onclick="decrement()">Decrement</button>
+    <script>
+        function increment() {
+            console.log('calling increment endpoint')
+            fetch('incrementEndpoint')
+            .then(() => updateCountOnPage())
+        }
+
+        function decrement() {
+            console.log('calling decrement endpoint')
+            fetch('decrementEndpoint')
+            .then(() => updateCountOnPage())
+        }
+
+        function updateCountOnPage() {
+            console.log('calling count endpoint to get latest value')
+            fetch('countEndpoint')
+            .then((response) =>  response.text())
+            .then((newCount) => {
+                console.log('latest value for count is', newCount)
+                let countDiv = document.getElementById("countDiv")
+                countDiv.innerText = newCount
+            })
+        }
+
+        setInterval(updateCountOnPage, 2000)
+        
+        updateCountOnPage()
+    </script>
+</body>
+</html>
